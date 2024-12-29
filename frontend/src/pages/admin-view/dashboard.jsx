@@ -18,10 +18,10 @@ function AdminDashboard() {
         <div className='w-full justify-items-center'>
             <img src={abc} alt="abc" className='lg:w-[400px] lg:h-[400px] w-[250px] h-[250px]' />
             <div >
-                <p className="font-semibold lg:text-center text-cyan-950 text-2xl">
-                    PRANITA PAWASKA
+                <p className="font-semibold text-center text-cyan-950 text-2xl">
+                    PRANITA PAWASKAR
                 </p>
-                <p className="font-semibold lg:text-center text-cyan-950 text-xl mb-10">
+                <p className="font-semibold text-center text-cyan-950 text-xl mb-10">
                    (ADMIN & OWNER)
                 </p>
                
@@ -35,7 +35,7 @@ function AdminDashboard() {
                    </p>
 
                 </div>
-            <Table className='text-[10px] lg:text-[16px]'>
+            <Table className='text-[12px] lg:text-[16px]'>
                 <TableHeader >
                     <TableHead >
                         User Name
