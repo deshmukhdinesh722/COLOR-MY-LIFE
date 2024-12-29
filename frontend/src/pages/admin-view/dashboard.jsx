@@ -19,7 +19,7 @@ function AdminDashboard() {
             <img src={abc} alt="abc" className='lg:w-[400px] lg:h-[400px] w-[250px] h-[250px]' />
             <div >
                 <p className="font-semibold lg:text-center text-cyan-950 text-2xl">
-                    PRANITA PAWASKAR
+                    PRANITA PAWASKA
                 </p>
                 <p className="font-semibold lg:text-center text-cyan-950 text-xl mb-10">
                    (ADMIN & OWNER)

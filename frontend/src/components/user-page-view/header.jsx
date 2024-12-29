@@ -9,7 +9,7 @@ import { DropdownMenu, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu
 import { Avatar } from '@radix-ui/react-avatar';
 import { AvatarFallback } from '../ui/avatar';
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '../ui/dropdown-menu';
-import { logoutUser } from '@/store/authSlice';
+import { logoutUser, resetTokenAndCredentials } from '@/store/authSlice';
 import CartWrapper from './cartWrapper';
 import { fetchCart } from '@/store/cartSlice';
 import abc from '../../assets/abc.png'
@@ -40,8 +40,10 @@ function HeaderRightContent(){
     const navigate=useNavigate()
     const dispatch=useDispatch()
     function handlleLogout(){
-        dispatch(logoutUser())
-    }
+        dispatch(resetTokenAndCredentials())
+        sessionStorage.clear();
+        navigate('/auth/login')
+;    }
     useEffect(()=>{
         console.log(user?.id);
         

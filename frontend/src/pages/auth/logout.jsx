@@ -1,14 +1,18 @@
 import { Button } from '@/components/ui/button'
-import { logoutUser } from '@/store/authSlice'
+import { logoutUser, resetTokenAndCredentials } from '@/store/authSlice'
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 function AdminLogout() {
     const dispatch =useDispatch()
+    const navigate=useNavigate()
 
 function handlleLogout(){
-dispatch(logoutUser())
+        dispatch(resetTokenAndCredentials())
+        sessionStorage.clear();
+        navigate('/auth/login')
 }
     return (
         <>

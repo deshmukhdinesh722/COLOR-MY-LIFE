@@ -4,7 +4,8 @@ import axios from "axios"
 const initialState={
     isAuthenticated:false,
     isLoading:true,
-    user:null
+    user:null,
+    token:null
 }
 
 export const registerUser = createAsyncThunk('/auth/register',
@@ -55,10 +56,13 @@ export const logoutUser = createAsyncThunk('/admin/logout',
     }
 );
 export const checkAuthUser = createAsyncThunk('/auth/checkauth',
-    async (_, { rejectWithValue }) => {
+    async (_, { token,rejectWithValue }) => {
         try {
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/check-auth`, {
                 withCredentials: true,
+                headers:{
+                    Authorization:`Bearer ${token}`
+                },
             });
             console.log(response.data);
             return response.data; // Return the user data on success
@@ -74,7 +78,12 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setUser: (state, action) => {}
+        setUser: (state, action) => {},
+        resetTokenAndCredentials:(state)=>{
+            state.isAuthenticated=false
+            state.user=null
+            state.token=null
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -99,12 +108,15 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.user = !action.payload.success ?null:action.payload.user;
                 state.isAuthenticated = !action.payload.success ? false :true;
+                state.token=action.payload.token;
+                sessionStorage.setItem('token',JSON.stringify(action.payload.token))
             })
             .addCase(loginrUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.user = null;
                 state.isAuthenticated = false;
                 console.error("Login Rejected:", action.payload); // Log the error message
+                state.token=null
             })
             .addCase(logoutUser.fulfilled, (state, action) => {
                 state.isLoading = false;
@@ -126,6 +138,6 @@ const authSlice = createSlice({
 });
 
 
-export const {setUser}=authSlice.actions;
+export const {setUser,resetTokenAndCredentials}=authSlice.actions;
 
 export default authSlice.reducer

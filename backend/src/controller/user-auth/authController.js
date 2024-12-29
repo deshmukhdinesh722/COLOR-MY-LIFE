@@ -81,20 +81,30 @@ const registerUser=
                   userName: checkUser.userName,
                 },
                 "CLIENT_SECRET_KEY",
-                { expiresIn: "60m" }
+                { expiresIn: "7d" }
               );
           
-              res.cookie("token", token, { httpOnly: true, secure: false }).json({
-                success: true,
-                message: "Logged in successfully",
-                user: {
-                  email: checkUser.email,
-                  role: checkUser.role,
-                  id: checkUser._id,
-                  userName: checkUser.userName,
-                },
-              });
-           
+            //   res.cookie("token", token, { httpOnly: true, secure: false }).json({
+            //     success: true,
+            //     message: "Logged in successfully",
+            //     user: {
+            //       email: checkUser.email,
+            //       role: checkUser.role,
+            //       id: checkUser._id,
+            //       userName: checkUser.userName,
+            //     },
+            //   });
+           res.json({
+            success:true,
+            message:'Looged in ',
+            token,
+            user: {
+            email: checkUser.email,
+            role: checkUser.role,
+            id: checkUser._id,
+            userName: checkUser.userName,
+                    },
+           })
         } catch (error) {
             console.error('Login Error:', error.message);
             return res.status(401).json({
@@ -113,7 +123,8 @@ const LogoutUser=async(req,res)=>{
 }
 
 const AuthMiddleware=async(req,res,next)=>{
-    const token=req.cookies.token;
+    const authHeader=req.headers['authorization']
+    const token=authHeader && authHeader.split(' ')[1]
     if(!token) return res.status(401).json({
         success:false,
         message:'unothorized user'
